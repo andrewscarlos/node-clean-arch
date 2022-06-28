@@ -1,48 +1,50 @@
-export class Address {
-    _street: string;
-    _number: number;
-    _zipcode: string;
-    _city: string;
+export default class Address {
+  _street: string = "";
+  _number: number = 0;
+  _zip: string = "";
+  _city: string = "";
 
-    constructor(street: string, number: number, zipcode: string, city: string) {
-        this._street = street;
-        this._number = number;
-        this._zipcode = zipcode;
-        this._city = city;
-        this.validate();
-    }
+  constructor(street: string, number: number, zip: string, city: string) {
+    this._street = street;
+    this._number = number;
+    this._zip = zip;
+    this._city = city;
 
-    validate() {
-        if (this._city.length === 0) {
-            throw new Error("City is empty");
-        }
-        if (this._zipcode.length === 0) {
-            throw new Error("Zipcode is empty");
-        }
-        if (this._number < 0) {
-            throw new Error("Number is negative");
-        }
-        if (this._street.length === 0) {
-            throw new Error("Street is empty");
-        }
-    }
+    this.validate();
+  }
 
-    get street(): string {
-        return this._street;
-    }
+  get street(): string {
+    return this._street;
+  }
 
-    get number(): number {
-        return this._number;
-    }
-    get zipcode(): string {
-        return this._zipcode;
-    }
-    get city(): string {
-        return this._city;
-    }
+  get number(): number {
+    return this._number;
+  }
 
-    toString(): string {
-        return `${this._street} ${this._number} ${this._zipcode} ${this._city}`;
-    }
+  get zip(): string {
+    return this._zip;
+  }
 
+  get city(): string {
+    return this._city;
+  }
+  
+  validate() {
+    if (this._street.length === 0) {
+      throw new Error("Street is required");
+    }
+    if (this._number === 0) {
+      throw new Error("Number is required");
+    }
+    if (this._zip.length === 0) {
+      throw new Error("Zip is required");
+    }
+    if (this._city.length === 0) {
+      throw new Error("City is required");
+    }
+  }
+
+  toString() {
+    return `${this._street}, ${this._number}, ${this._zip} ${this._city}`;
+  }
 }

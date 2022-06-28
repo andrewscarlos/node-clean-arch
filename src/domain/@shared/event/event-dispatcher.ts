@@ -1,40 +1,40 @@
-import { EventInterface } from "./event-interface";
-import { EventDispatcherInterface } from "./event-dispatcher-interface";
-import { EventHandlerInterface } from "./event-handler-interface";
+import EventDispatcherInterface from "./event-dispatcher.interface";
+import EventHandlerInterface from "./event-handler.interface";
+import eventInterface from "./event.interface";
 
+export default class EventDispatcher implements EventDispatcherInterface {
+  private eventHandlers: { [eventName: string]: EventHandlerInterface[] } = {};
 
-export class EventDispatcher implements EventDispatcherInterface {
+  get getEventHandlers(): { [eventName: string]: EventHandlerInterface[] } {
+    return this.eventHandlers;
+  }
 
-    private eventHandlers: { [eventName: string]: EventHandlerInterface<EventInterface>[] } = {};
+  register(eventName: string, eventHandler: EventHandlerInterface): void {
+    if (!this.eventHandlers[eventName]) {
+      this.eventHandlers[eventName] = [];
+    }
+    this.eventHandlers[eventName].push(eventHandler);
+  }
 
-    get getEventHandlers(): { [eventName: string]: EventHandlerInterface[] } {
-        return this.eventHandlers;
-    };
+  unregister(eventName: string, eventHandler: EventHandlerInterface): void {
+    if (this.eventHandlers[eventName]) {
+      const index = this.eventHandlers[eventName].indexOf(eventHandler);
+      if (index !== -1) {
+        this.eventHandlers[eventName].splice(index, 1);
+      }
+    }
+  }
 
-    notify(event: EventInterface): void {
-        const eventName = event.constructor.name;
-        if (!this.eventHandlers[eventName]) {
-            return
-        }
-        this.eventHandlers[eventName].forEach(eh => eh.handle(event));
-    };
+  unregisterAll(): void {
+    this.eventHandlers = {};
+  }
 
-    register(eventName: string, eventHandler: EventHandlerInterface<EventInterface>): void {
-        if (!this.eventHandlers[eventName]) {
-            this.eventHandlers[eventName] = [];
-        }
-        this.eventHandlers[eventName].push(eventHandler);
-    };
-
-    unregister(eventName: string, eventHandler: EventHandlerInterface<EventInterface>): void {
-        if (!this.eventHandlers[eventName]) {
-            return;
-        }
-        this.eventHandlers[eventName] = this.eventHandlers[eventName].filter(eh => eh !== eventHandler);
-    };
-
-    unregisterAll(): void {
-        this.eventHandlers = {};
-    };
-
+  notify(event: eventInterface): void {
+    const eventName = event.constructor.name;
+    if (this.eventHandlers[eventName]) {
+      this.eventHandlers[eventName].forEach((eventHandler) => {
+        eventHandler.handle(event);
+      });
+    }
+  }
 }

@@ -1,20 +1,24 @@
 /*
- * For a detailed explanation regarding each configuration property, visit:
+ * For a detailed explanation regarding each configuration property and type check, visit:
  * https://jestjs.io/docs/configuration
  */
 
-module.exports = {
+export default {
+  transform: {
+    "^.+\.(t|j)sx?$": ["@swc/jest"],
+    
+  },
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
   // Stop running tests after `n` failures
   // bail: 0,
-  transform: { "^.+\\.tsx?$": "ts-jest" },
-  // The directory where Jest should store its cached dependency information
-  // cacheDirectory: "/tmp/jest_rs",
 
-  // Automatically clear mock calls, instances, contexts and results before every test
-  // clearMocks: false,
+  // The directory where Jest should store its cached dependency information
+  // cacheDirectory: "/private/var/folders/h_/n9cr86t52279b8msmjm777z00000gn/T/jest_dx",
+
+  // Automatically clear mock calls, instances and results before every test
+  clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
   // collectCoverage: false,
@@ -50,11 +54,6 @@ module.exports = {
   // Make calling deprecated APIs throw helpful error messages
   // errorOnDeprecated: false,
 
-  // The default configuration for fake timers
-  // fakeTimers: {
-  //   "enableGlobally": false
-  // },
-
   // Force coverage collection from ignored files using an array of glob patterns
   // forceCoverageMatch: [],
 
@@ -78,8 +77,6 @@ module.exports = {
   // An array of file extensions your modules use
   // moduleFileExtensions: [
   //   "js",
-  //   "mjs",
-  //   "cjs",
   //   "jsx",
   //   "ts",
   //   "tsx",
@@ -171,6 +168,12 @@ module.exports = {
 
   // This option allows use of a custom test runner
   // testRunner: "jest-circus/runner",
+
+  // This option sets the URL for the jsdom environment. It is reflected in properties such as location.href
+  // testURL: "http://localhost",
+
+  // Setting this value to "fake" allows the use of fake timers for functions such as "setTimeout"
+  // timers: "real",
 
   // A map from regular expressions to paths to transformers
   // transform: undefined,

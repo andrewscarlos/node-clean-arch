@@ -1,46 +1,49 @@
-import { ProductInterface } from "./product-inteface";
+import ProductInterface from "./product.interface";
 
-export class Product implements ProductInterface {
+export default class Product implements ProductInterface {
+  private _id: string;
+  private _name: string;
+  private _price: number;
 
-    private _id: string;
-    private _name: string;
-    private _price: number;
+  constructor(id: string, name: string, price: number) {
+    this._id = id;
+    this._name = name;
+    this._price = price;
+    this.validate();
+  }
 
-    constructor(id: string, name: string, price: number) {
-        this._id = id;
-        this._name = name;
-        this._price = price;
-        this.validate()
-    }
-    validate(): void {
-        if (this._id.length === 0) {
-            throw new Error('Id is required');
-        }
-        if (this._name.length === 0) {
-            throw new Error('Name is required');
-        }
-        if (this._price <= 0) {
-            throw new Error('Price must be greater than 0');
-        }
-    }
+  get id(): string {
+    return this._id;
+  }
+  
+  get name(): string {
+    return this._name;
+  }
 
-    changeName(name: string): void {
-        this._name = name;
-        this.validate();
-    }
+  get price(): number {
+    return this._price;
+  }
 
-    changePrice(price: number): void {
-        this._price = price;
-        this.validate();
-    }
+  changeName(name: string): void {
+    this._name = name;
+    this.validate();
+  }
 
-    get price(): number {
-        return this._price
+  changePrice(price: number): void {
+    this._price = price;
+    this.validate();
+  }
+
+  validate(): boolean {
+    if (this._id.length === 0) {
+      throw new Error("Id is required");
     }
-    get name(): string {
-        return this._name;
+    if (this._name.length === 0) {
+      throw new Error("Name is required");
     }
-    get id(): string {
-        return this._id;
+    if (this._price < 0) {
+      throw new Error("Price must be greater than zero");
     }
+    return true;
+  }
 }
